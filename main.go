@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -20,8 +21,8 @@ func main() {
 		panic(err.Error())
 	}
 
-	// defer the close till after the main function has finished
-	// executing
-	defer db.Close()
+	db.SetConnMaxLifetime(time.Minute * 3)
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(10)
 
 }
